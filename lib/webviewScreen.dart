@@ -13,7 +13,8 @@ class WebViewScreen extends StatefulWidget{
 
 class WebViewScreenState extends State<WebViewScreen> {
   final flutterWebviewPlugin = new FlutterWebviewPlugin(); 
-  
+  StreamSubscription<String> _onUrlChanged;
+
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
   
   @override
@@ -22,7 +23,12 @@ class WebViewScreenState extends State<WebViewScreen> {
     flutterWebviewPlugin.close();
   
     super.initState();
-     
+    _onUrlChanged = flutterWebviewPlugin.onUrlChanged.listen((String url) {
+      if (mounted) {
+        
+        flutterWebviewPlugin.reload();
+      }
+    });
   }
    @override
   void dispose() {
